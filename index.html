@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      canvas {
+        border: 1px solid #9C9898;
+      }
+      #main {
+        margin: 100px;
+      }
+      #container {
+        float: left;
+      }
+      #rgb {
+        padding: 10px;
+        float: left;
+        background-color: 'red';
+      }
+    </style>
+    <script src='kinetic.js'></script>
+    <script src='rgbcolor.js'></script>
+    <script src='buri.js'></script>
+    <script src='jquery.js'></script>
+    <script>
+      function setRGB(cc) {
+        var color = new RGBColor(cc);
+        $("#r").val(color.r);
+        $("#g").val(color.g);
+        $("#b").val(color.b);
+        $('#color').html(color.toHex()).css('background-color', color.toHex());
+      }
+      function getRGB() {
+        var color = new RGBColor('#000');
+        color.r = parseInt($("#r").val());
+        color.g = parseInt($("#g").val());
+        color.b = parseInt($("#b").val());
+        return color.toHex();
+      }
+      $(function() {
+        var buri = new Buri('container');
+        var ps = [];
+        for (var i = 0; i < 11; i++) {
+          ps.push([i / 10.0, Math.random()]);
+        }
+        buri.plot(ps);
+        buri.select(function(anchor) {
+          setRGB(anchor.getFill());
+          $("input").unbind().change(function() {
+            var rgb = getRGB();
+            setRGB(getRGB());
+            anchor.setFill(rgb);
+            buri.update();
+          });
+        });
+        buri.change(function() {
+          console.log(buri.getPoints());
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id='main'>
+      <div id="container"></div>
+      <div id="rgb">
+        <table>
+          <tbody>
+            <tr>
+              <td>R</td>
+              <td><input id="r" type="range" min="0" max="255" /></td>
+            </tr>
+            <tr>
+              <td>G</td>
+              <td><input id="g" type="range" min="0" max="255" /></td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td><input id="b" type="range" min="0" max="255" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <span id='color'><span>
+      </div>
+    </div>
+  </body>
+</html>
+
