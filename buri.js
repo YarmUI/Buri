@@ -95,8 +95,8 @@ Buri.prototype.init = function(opt) {
       return a.concat(b);
     });
     anchorGuide.setPoints(ps);
-    if(anchors.length >= 2) {
-      for(var i = 1; i < anchors.length - 2; i++) {
+    if(anchors.length >= 1) {
+      for(var i = 1; i < anchors.length - 1; i++) {
         anchors[i].setDragBounds({
           right: anchors[i+1].getX(),
           left: anchors[i-1].getX(),
